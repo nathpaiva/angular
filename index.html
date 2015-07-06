@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="listaTelefonica">
+<head>
+	<meta charset="UTF-8">
+	<title>Angular</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<style type="text/css">
+		.jumbotron{
+			width: 400px;
+			text-align: center;
+			margin: 20px auto auto;
+		}
+		table, .form-control{
+			margin: 20px 0 0;
+		}
+		table th{
+			text-align: center;
+		}
+		h2 ~ p{
+			color: red;
+		}
+	</style>
+	<script type="text/javascript" src="js/lib/angular.js"></script>
+	<script type="text/javascript">
+		angular.module("listaTelefonica",[]);
+
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+			$scope.app = "Lista telefonica";
+			$scope.contatos = [
+			{
+				nome: "One",
+				telefone: "(xx) 9999-9999"
+			},
+			{
+				nome: "Two",
+				telefone: "(xx) 8888-8888"
+			},
+			{
+				nome: "Three",
+				telefone: "(xx) 7777-7777"
+			}
+			];
+			$scope.addContact = function ( contato ){
+				// $scope.contatos.push(contato);
+				$scope.contatos.push(angular.copy(contato));
+				delete $scope.contato;
+			}
+		});
+
+
+	</script>
+</head>
+<body>
+	<div ng-controller="listaTelefonicaCtrl" class="jumbotron">
+		<h3>
+			{{app}}
+		</h3>
+
+		<table class="table table-striped">
+			<tr>
+				<th>Nome</th>
+				<th>Telefone</th>
+			</tr>
+			<tr ng-repeat="myarray in contatos">
+				<td>{{myarray.nome}}</td>
+				<td>{{myarray.telefone}}</td>
+			</tr>
+			<!-- <tr ng-repeat="myarray in contatos">
+				<td ng-repeat="(key, value) in myarray">
+					{{value}}
+				</td>
+			</tr> -->
+		</table>
+
+		<input class="form-control" type="text" name="nome" id="nome" placeholder="nome" ng-model="contato.nome">
+		<input class="form-control" type="text" name="telefone" id="telefone" placeholder="telefone" ng-model="contato.telefone">
+		<button class="btn btn-primary btn-block" ng-click="addContact(contato)">Adicionar contato</button>
+		{{nome}}
+		{{telefone}}
+		{{contato}}
+	</div>
+</body>
+</html>
