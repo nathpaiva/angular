@@ -25,6 +25,9 @@
 		.negrito{
 			font-weight: bold;
 		}
+		footer{
+			text-align: center;
+		}
 	</style>
 	<script type="text/javascript" src="js/lib/angular.js"></script>
 	<script type="text/javascript">
@@ -35,15 +38,18 @@
 			$scope.contatos = [
 			{
 				nome: "One",
-				telefone: "(xx) 9999-9999"
+				telefone: "(xx) 9999-9999",
+				cor: "blue"
 			},
 			{
 				nome: "Two",
-				telefone: "(xx) 8888-8888"
+				telefone: "(xx) 8888-8888",
+				cor: "yellow"
 			},
 			{
 				nome: "Three",
-				telefone: "(xx) 7777-7777"
+				telefone: "(xx) 7777-7777",
+				cor: "pink"
 			}
 			];
 			$scope.operadoras = [
@@ -100,12 +106,13 @@
 			{{app}}
 		</h3>
 		<!-- {{contatos}} -->
-		<table class="table">
+		<table class="table" ng-show="contatos.length > 0">
 			<tr>
 				<th>Selecinado</th>
 				<th>Nome</th>
 				<th>Telefone</th>
 				<th>Operadora</th>
+				<th>Cor</th>
 			</tr>
 			<tr ng-repeat="myarray in contatos" ng-class="{'selecionado negrito': myarray.selecionado}">
 				<!-- <tr ng-repeat="myarray in contatos"> -->
@@ -113,6 +120,7 @@
 				<td>{{myarray.nome}}</td>
 				<td>{{myarray.telefone}}</td>
 				<td>{{myarray.operadora.nome}}</td>
+				<td><div style="width: 20px; height: 20px;" ng-style="{'background-color': myarray.cor}"></div></td>
 			</tr>
 			<!-- <tr ng-repeat="myarray in contatos">
 				<td ng-repeat="(key, value) in myarray">
@@ -135,13 +143,17 @@
 		<!-- <button class="btn btn-primary btn-block" ng-click="addContact(contato)" ng-disabled="!contato.nome || !contato.telefone || !contato.operadora">Adicionar contato</button> -->
 		<button class="btn btn-primary btn-block" ng-click="addContact(contato)" ng-disabled="contatoForm.$invalid" >Adicionar contato</button>
 		<!-- <button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-disabled="true">Apagar contato</button> -->
-		<button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-disabled="!isContatoSelecionado(contatos)">Apagar contato</button>
+		<!-- <button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-disabled="!isContatoSelecionado(contatos)">Apagar contato</button> -->
 		<!-- <button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-show="isContatoSelecionado(contatos)">Apagar contato</button> -->
+		<!-- <button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-show="isContatoSelecionado(contatos)">Apagar contato</button> -->
+		<!-- <button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-hide="!isContatoSelecionado(contatos)">Apagar contato</button> -->
+		<button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-if="isContatoSelecionado(contatos)">Apagar contato</button>
 		<!-- {{operadoras}} -->
 		<!-- {{nome}} -->
 		<!-- {{telefone}} -->
 		<!-- {{contato}} -->
 	</div>
+	<div ng-include="'footer.html'" scope="" onload=""></div>
 </body>
 </html>
 
