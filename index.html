@@ -19,6 +19,12 @@
 		h2 ~ p{
 			color: red;
 		}
+		.selecionado{
+			background-color: orange;
+		}
+		.negrito{
+			font-weight: bold;
+		}
 	</style>
 	<script type="text/javascript" src="js/lib/angular.js"></script>
 	<script type="text/javascript">
@@ -40,30 +46,73 @@
 				telefone: "(xx) 7777-7777"
 			}
 			];
+			$scope.operadoras = [
+			{
+				nome: "Oi",
+				categoria: "celular",
+				codigo: 31
+			},
+			{
+				nome: "Tim",
+				categoria: "celular",
+				codigo: 41
+			},
+			{
+				nome: "Vivo",
+				categoria: "celular",
+				codigo: 15
+			},
+			{
+				nome: "GVT",
+				categoria: "fixo",
+				codigo: 25
+			},
+			{
+				nome: "Vivo",
+				categoria: "fixo",
+				codigo: 31
+			}
+			]
 			$scope.addContact = function ( contato ){
 				// $scope.contatos.push(contato);
 				$scope.contatos.push(angular.copy(contato));
 				delete $scope.contato;
-			}
+			};
+			$scope.apagarContact = function ( contatos ){
+				$scope.contatos = contatos.filter(function(contato){
+					if (!contato.selecionado) return contato;
+				});
+			};
+			$scope.isContatoSelecionado = function ( contatos ){
+
+				return contatos.some(function ( contato ){
+					return contato.selecionado;
+				});
+			};
 		});
 
 
-	</script>
+</script>
 </head>
 <body>
 	<div ng-controller="listaTelefonicaCtrl" class="jumbotron">
 		<h3>
 			{{app}}
 		</h3>
-
-		<table class="table table-striped">
+		<!-- {{contatos}} -->
+		<table class="table">
 			<tr>
+				<th>Selecinado</th>
 				<th>Nome</th>
 				<th>Telefone</th>
+				<th>Operadora</th>
 			</tr>
-			<tr ng-repeat="myarray in contatos">
+			<tr ng-repeat="myarray in contatos" ng-class="{'selecionado negrito': myarray.selecionado}">
+				<!-- <tr ng-repeat="myarray in contatos"> -->
+				<td><input type="checkbox" ng-model="myarray.selecionado" /></td>
 				<td>{{myarray.nome}}</td>
 				<td>{{myarray.telefone}}</td>
+				<td>{{myarray.operadora.nome}}</td>
 			</tr>
 			<!-- <tr ng-repeat="myarray in contatos">
 				<td ng-repeat="(key, value) in myarray">
@@ -71,13 +120,56 @@
 				</td>
 			</tr> -->
 		</table>
-
-		<input class="form-control" type="text" name="nome" id="nome" placeholder="nome" ng-model="contato.nome">
-		<input class="form-control" type="text" name="telefone" id="telefone" placeholder="telefone" ng-model="contato.telefone">
-		<button class="btn btn-primary btn-block" ng-click="addContact(contato)">Adicionar contato</button>
-		{{nome}}
-		{{telefone}}
-		{{contato}}
+		é varido? {{contatoForm.$valid}} <br>
+		é invarido? {{contatoForm.$invalid}} <br>
+		<form name="contatoForm">
+			<input class="form-control" type="text" name="nome" id="nome" placeholder="nome" ng-model="contato.nome" ng-required="true">
+			<input class="form-control" type="text" name="telefone" id="telefone" placeholder="telefone" ng-model="contato.telefone" ng-required="true">
+			<select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" ng-required="true">
+				<!-- <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras"> -->
+				<!-- <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras"> -->
+				<!-- <select class="form-control" ng-model="contato.operadora" ng-options="operadora.codigo as operadora.nome for operadora in operadoras"> -->
+				<option value="">Selecione a operadora</option>
+			</select>
+		</form>
+		<!-- <button class="btn btn-primary btn-block" ng-click="addContact(contato)" ng-disabled="!contato.nome || !contato.telefone || !contato.operadora">Adicionar contato</button> -->
+		<button class="btn btn-primary btn-block" ng-click="addContact(contato)" ng-disabled="contatoForm.$invalid" >Adicionar contato</button>
+		<!-- <button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-disabled="true">Apagar contato</button> -->
+		<button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-disabled="!isContatoSelecionado(contatos)">Apagar contato</button>
+		<!-- <button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-show="isContatoSelecionado(contatos)">Apagar contato</button> -->
+		<!-- {{operadoras}} -->
+		<!-- {{nome}} -->
+		<!-- {{telefone}} -->
+		<!-- {{contato}} -->
 	</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
