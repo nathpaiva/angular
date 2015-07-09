@@ -4,68 +4,15 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1">
 	<title>Angular</title>
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 
-	<script type="text/javascript" src="js/lib/angular.js"></script>
-	<script type="text/javascript" src="js/lib/angular-messages.js"></script>
-	<script type="text/javascript" src="js/lib/angular-locale.br.js"></script>
-	<script type="text/javascript">
-		angular.module("listaTelefonica",["ngMessages"]);
+	<script type="text/javascript" src="lib/angular.js"></script>
+	<script type="text/javascript" src="lib/angular-messages.js"></script>
+	<script type="text/javascript" src="lib/angular-locale.br.js"></script>
 
-		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $http){
-			$scope.app = "Lista telefonica";
-			$scope.contatos = [];
-			$scope.operadoras = [];
-
-			var carregarContatos = function (){
-				$http.get("http://local.angular.js/js/json/contatos").success(function ( data ){
-					$scope.contatos = data;
-				});
-			};
-			var carregarOperadoras = function (){
-				$http.get("http://local.angular.js/js/json/operadoras").success(function ( data ){
-					$scope.operadoras = data;
-				});
-			};
-
-			$scope.addContact = function ( contato ){
-				contato.data = new Date();
-
-				$scope.contatos.push(angular.copy(contato));
-				delete $scope.contato;
-				$scope.contatoForm.$setPristine();
-
-				// $http.post("http://local.angular.js/js/json/operadoras", contato).success(function ( data ){
-				// 	delete $scope.contato;
-				// 	$scope.contatoForm.$setPristine();
-
-				// 	carregarContatos();
-				// 	// caro não queira recarregar
-				// 	// $scope.contatos.push(angular.copy(contato));
-				// });
-			};
-			$scope.apagarContact = function ( contatos ){
-				$scope.contatos = contatos.filter(function(contato){
-					if (!contato.selecionado) return contato;
-				});
-			};
-			$scope.isContatoSelecionado = function ( contatos ){
-
-				return contatos.some(function ( contato ){
-					return contato.selecionado;
-				});
-			};
-			$scope.ordenarPor = function ( campo ){
-				$scope.criterioDeOrdenacao = campo;
-				$scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
-			};
-
-			carregarContatos();
-			carregarOperadoras();
-		});
-
-</script>
+	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/controllers/listaTelefonicaCtrl.js"></script>
 </head>
 <body>
 	<div ng-controller="listaTelefonicaCtrl" class="jumbotron">
@@ -119,7 +66,7 @@
 		<button class="btn btn-primary btn-block" ng-click="addContact(contato)" ng-disabled="contatoForm.$invalid" >Adicionar contato</button>
 		<button class="btn btn-danger btn-block" ng-click="apagarContact(contatos)" ng-if="isContatoSelecionado(contatos)">Apagar contato</button>
 	</div>
-	<div ng-include="'footer.html'" scope="" onload=""></div>
+	<div ng-include="'view/footer.html'" scope="" onload=""></div>
 </body>
 </html>
 
