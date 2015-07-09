@@ -38,11 +38,13 @@
 	<script type="text/javascript">
 		angular.module("listaTelefonica",["ngMessages"]);
 
-		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+		// angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $filter){
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, uppercaseFilter){
 			$scope.app = "Lista telefonica";
 			$scope.contatos = [
 			{
-				nome: "One",
+				// nome: $filter('uppercase')("One"),
+				nome: uppercaseFilter("One"),
 				telefone: "(xx) 9999-9999",
 				cor: "blue",
 				data: new Date(),
@@ -156,7 +158,8 @@
 			<tr ng-repeat="myarray in contatos | filter:criterioDeBusca | orderBy:criterioDeOrdenacao:direcaoDaOrdenacao" ng-class="{'selecionado negrito': myarray.selecionado}">
 				<!-- <tr ng-repeat="myarray in contatos"> -->
 				<td><input type="checkbox" ng-model="myarray.selecionado" /></td>
-				<td>{{myarray.nome | uppercase | limitTo:3}}</td>
+				<!-- <td>{{myarray.nome | uppercase | limitTo:3}}</td> -->
+				<td>{{myarray.nome}}</td>
 				<td>{{myarray.telefone}}</td>
 				<td>{{myarray.operadora.nome | lowercase }}</td>
 				<!-- <td>{{myarray.data | date:'dd/MM/yy'}}</td> -->
