@@ -13,79 +13,37 @@
 	<script type="text/javascript">
 		angular.module("listaTelefonica",["ngMessages"]);
 
-		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, uppercaseFilter){
+		angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $http){
 			$scope.app = "Lista telefonica";
-			$scope.contatos = [
-			{
-				nome: uppercaseFilter("One"),
-				telefone: "(xx) 9999-9999",
-				cor: "blue",
-				data: new Date(),
-				operadora : {
-					nome: "OI",
-					codigo: "31",
-					categoria: "fixo"
-				}
-			},
-			{
-				nome: "Two",
-				telefone: "(xx) 8888-8888",
-				cor: "yellow",
-				data: new Date(),
-				operadora : {
-					nome: "OI",
-					codigo: "31",
-					categoria: "fixo"
-				}
-			},
-			{
-				nome: "Three",
-				telefone: "(xx) 7777-7777",
-				cor: "pink",
-				data: new Date(),
-				operadora : {
-					nome: "OI",
-					codigo: "31",
-					categoria: "fixo"
-				}
-			}
-			];
-			$scope.operadoras = [
-			{
-				nome: "OI",
-				categoria: "celular",
-				codigo: 31,
-				preco: 1
-			},
-			{
-				nome: "TIM",
-				categoria: "celular",
-				codigo: 41,
-				preco: 2
-			},
-			{
-				nome: "VIVO",
-				categoria: "celular",
-				codigo: 15,
-				preco: 3
-			},
-			{
-				nome: "GVT",
-				categoria: "fixo",
-				codigo: 25,
-				preco: 10
-			},
-			{
-				nome: "VIVO",
-				categoria: "fixo",
-				codigo: 31,
-				preco: 7
-			}
-			]
+			$scope.contatos = [];
+			$scope.operadoras = [];
+
+			var carregarContatos = function (){
+				$http.get("http://local.angular.js/js/json/contatos").success(function ( data ){
+					$scope.contatos = data;
+				});
+			};
+			var carregarOperadoras = function (){
+				$http.get("http://local.angular.js/js/json/operadoras").success(function ( data ){
+					$scope.operadoras = data;
+				});
+			};
+
 			$scope.addContact = function ( contato ){
+				contato.data = new Date();
+
 				$scope.contatos.push(angular.copy(contato));
 				delete $scope.contato;
 				$scope.contatoForm.$setPristine();
+
+				// $http.post("http://local.angular.js/js/json/operadoras", contato).success(function ( data ){
+				// 	delete $scope.contato;
+				// 	$scope.contatoForm.$setPristine();
+
+				// 	carregarContatos();
+				// 	// caro não queira recarregar
+				// 	// $scope.contatos.push(angular.copy(contato));
+				// });
 			};
 			$scope.apagarContact = function ( contatos ){
 				$scope.contatos = contatos.filter(function(contato){
@@ -102,8 +60,10 @@
 				$scope.criterioDeOrdenacao = campo;
 				$scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
 			};
-		});
 
+			carregarContatos();
+			carregarOperadoras();
+		});
 
 </script>
 </head>

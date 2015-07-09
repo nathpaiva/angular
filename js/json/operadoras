@@ -1,0 +1,32 @@
+[
+    {
+        "nome": "OI",
+        "categoria": "celular",
+        "codigo": 31,
+        "preco": 1
+    },
+    {
+        "nome": "TIM",
+        "categoria": "celular",
+        "codigo": 41,
+        "preco": 2
+    },
+    {
+        "nome": "VIVO",
+        "categoria": "celular",
+        "codigo": 15,
+        "preco": 3
+    },
+    {
+        "nome": "GVT",
+        "categoria": "fixo",
+        "codigo": 25,
+        "preco": 10
+    },
+    {
+        "nome": "VIVO",
+        "categoria": "fixo",
+        "codigo": 31,
+        "preco": 7
+    }
+]
