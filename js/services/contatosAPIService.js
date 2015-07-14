@@ -1,9 +1,9 @@
-angular.module('listaTelefonica').factory('contatosAPI', function($http){
+angular.module('listaTelefonica').factory('contatosAPI', function($http, config){
 	var _getContatos = function (){
-		return $http.get("http://local.angular.js/js/json/contatos");
+		return $http.get(config.baseUrl);
 	};
 	var _postContatos = function ( contato ){
-		return $http.post("http://local.angular.js/js/json/contatos", contato);
+		return $http.post(config.baseUrl, contato);
 	};
 	return {
 		getContatos : _getContatos,
